@@ -5,13 +5,17 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
     
     fire(x, y, flipX) {
         this.body.reset(x, y)
+        // this.enableBody(true,x,y,true,true)
+        this.enableBody(false)
         this.pX=x
         this.pY=y
         this.body.collideWorldBounds = true
         this.body.allowGravity = false
+        console.log(this.body.collision)
         //console.log(this.body)
         //console.log(this.body)
         if (flipX === false) {
+            //this.body.enableBody()
             this.setActive(true)
             this.setVisible(true)
             this.setVelocityX(600)
@@ -29,35 +33,13 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
     preUpdate(time, delta) {
         super.preUpdate(time, delta)
         let dist=Phaser.Math.Distance.Between(this.pX,this.pY,this.body.x,this.body.y)
-        // if(this.body.x>=this.pX){
-        //     this.setActive(false)
-        //     this.setVisible(false)
-        //     console.log('out right')
-        // }
-        // else if(this.body.x<this.pX){
-        //     console.log('out left')
-        // }
         if(dist>=400){
-            this.setActive(false)
-            this.setVisible(false)
-            console.log('gone')
+            this.disableBody(true,true)
         }
-        //console.log(this.pX)
-        // if (this.x > 1000) {
-        //     this.setActive(false)
-        //     this.setVisible(false)
-        //     console.log('goneR')
-        // }
-        // else if (this.x<= 0){
-        //     this.setActive(false)
-        //     this.setVisible(false)
-        //     console.log('goneL')
-        // }
+       
         
     }
-    // worldBoundsBullet(body){
-    //     console.log('stuck')
-    // }
+   
 }
 class Bullets extends Phaser.Physics.Arcade.Group {
     constructor(scene) {
@@ -74,6 +56,7 @@ class Bullets extends Phaser.Physics.Arcade.Group {
     fireBullet(x, y,flipX) {
         let bullet = this.getFirstDead(false)
         if (bullet) {
+            //bullet.enableBody(true)
             bullet.fire(x, y, flipX)
             bullet.body.onWorldBounds = true;
             console.log(this.player)
